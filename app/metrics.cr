@@ -43,41 +43,41 @@ struct UDPMetricReporter < BaseMetricReporter
   end
 
   def send(message : String)
-	  begin
-		  @client.send message
-	  rescue ex : Errno
-		  STDERR << "Error sending metric: " << ex.inspect << "\n"
-	  end
+    begin
+      @client.send message
+    rescue ex : Errno
+      STDERR << "Error sending metric: " << ex.inspect << "\n"
+    end
   end
 
   def send(name : String, value : String, type : Char)
-	  self.send "#{name}:#{value}|#{type}"
+    self.send "#{name}:#{value}|#{type}"
   end
 
   def send(name : String, value : String, type : Char, rate : UInt8)
-	  self.send "#{name}:#{value}|#{type}|@#{rate}"
+    self.send "#{name}:#{value}|#{type}|@#{rate}"
   end
 
   def send(name : String, value : String, type : Char, tags : Array(String))
-	  if tags.size == 0
-		  self.send name, value, type
-	  else
-		  self.send "#{name}:#{value}|#{type}|##{tags.join(',')}"
-	  end
+    if tags.size == 0
+      self.send name, value, type
+    else
+      self.send "#{name}:#{value}|#{type}|##{tags.join(',')}"
+    end
   end
 
   def send(name : String, value : String, type : Char, rate : UInt8, tags : Array(String))
-	  if tags.size == 0
-		  self.send name, value, type, rate
-	  else
-		  self.send "#{name}:#{value}|#{type}|@#{rate}|##{tags.join(',')}"
-	  end
+    if tags.size == 0
+      self.send name, value, type, rate
+    else
+      self.send "#{name}:#{value}|#{type}|@#{rate}|##{tags.join(',')}"
+    end
   end
 
   # COUNT
 
   def count(name : String)
-	  self.send name, "1", 'c'
+    self.send name, "1", 'c'
   end
 
   def count(name : String, rate : UInt8)
@@ -85,28 +85,28 @@ struct UDPMetricReporter < BaseMetricReporter
   end
 
   def count(name : String, tags : Array(String))
-	  self.send name, "1", 'c', tags
+    self.send name, "1", 'c', tags
   end
 
   def count(name : String, rate : UInt8, tags : Array(String))
-	  self.send name, "1", 'c', rate, tags
+    self.send name, "1", 'c', rate, tags
   end
 
   # HISTOGRAM
 
   def histogram(name : String, value : String)
-	  self.send name, value, 'h'
+    self.send name, value, 'h'
   end
 
   def histogram(name : String, value : String, rate : UInt8)
-	  self.send name, value, 'h', rate
+    self.send name, value, 'h', rate
   end
 
   def histogram(name : String, value : String, tags : Array(String))
-	  self.send name, value, 'h', tags
+    self.send name, value, 'h', tags
   end
 
   def histogram(name : String, value : String, rate : UInt8, tags : Array(String))
-	  self.send name, value, 'h', rate, tags
+    self.send name, value, 'h', rate, tags
   end
 end
