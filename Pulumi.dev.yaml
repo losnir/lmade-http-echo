@@ -1,0 +1,4 @@
+config:
+  aws:region: us-east-1
+  http-echo:vpc-name: pulumi
+  http-echo:vpc-id: vpc-097b0a8339bbe84b9
